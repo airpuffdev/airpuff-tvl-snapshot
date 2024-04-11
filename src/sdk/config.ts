@@ -2,7 +2,7 @@ export const enum CHAINS{
     MODE = 34443,
 }
 export const enum PROTOCOLS{
-    SUPSWAP = 0,
+    AIRPUFF = 0,
 }
 
 export const enum AMM_TYPES{
@@ -11,8 +11,8 @@ export const enum AMM_TYPES{
 
 export const SUBGRAPH_URLS = {
     [CHAINS.MODE]: {
-        [PROTOCOLS.SUPSWAP]: {
-            [AMM_TYPES.UNISWAPV3]: "https://api.goldsky.com/api/public/project_clrhmyxsvvuao01tu4aqj653e/subgraphs/supswap-exchange-v3/1.0.0/gn"
+        [PROTOCOLS.AIRPUFF]: {
+            [AMM_TYPES.UNISWAPV3]: "https://api.goldsky.com/api/public/project_clmqdcfcs3f6d2ptj3yp05ndz/subgraphs/Algebra/0.0.1/gn"
         }
     }
 }

@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { CHAINS, PROTOCOLS, AMM_TYPES } from "./sdk/config";
-import { getLPValueByUserAndPoolFromPositions, getPositionAtBlock, getPositionDetailsFromPosition, getPositionsForAddressByPoolAtBlock } from "./sdk/subgraphDetails";
+// import { getLPValueByUserAndPoolFromPositions, getPositionAtBlock, getPositionDetailsFromPosition, getPositionsForAddressByPoolAtBlock } from "./sdk/subgraphDetails";
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
 };
@@ -11,6 +11,7 @@ import csv from 'csv-parser';
 import fs from 'fs';
 import { format } from 'fast-csv';
 import { write } from 'fast-csv';
+import { getLpTokenPriceUSD } from "./sdk/price";
 
 //Uncomment the following lines to test the getPositionAtBlock function
 
@@ -73,52 +74,53 @@ const readBlocksFromCSV = async (filePath: string): Promise<number[]> => {
 };
 
 
-const getData = async () => {
-  const snapshotBlocks = [
-    3116208, 3159408, 3202608, 3245808, 3289008, 3332208,
-    3375408, 3418608, 3461808, 3505008, 3548208, 3591408,
-    3634608, 3677808, 3721008, 3764208, 3807408, 3850608,
-    3893808, 3937008, 3980208, 3983003,
-  ]; //await readBlocksFromCSV('src/sdk/mode_chain_daily_blocks.csv');
+// const getData = async () => {
+//   const snapshotBlocks = [
+//     3116208, 3159408, 3202608, 3245808, 3289008, 3332208,
+//     3375408, 3418608, 3461808, 3505008, 3548208, 3591408,
+//     3634608, 3677808, 3721008, 3764208, 3807408, 3850608,
+//     3893808, 3937008, 3980208, 3983003,
+//   ]; //await readBlocksFromCSV('src/sdk/mode_chain_daily_blocks.csv');
   
-  const csvRows: CSVRow[] = [];
+//   const csvRows: CSVRow[] = [];
 
-  for (let block of snapshotBlocks) {
-    const positions = await getPositionsForAddressByPoolAtBlock(
-      block, "", "", CHAINS.MODE, PROTOCOLS.SUPSWAP, AMM_TYPES.UNISWAPV3
-    );
+//   for (let block of snapshotBlocks) {
+//     const positions = await getPositionsForAddressByPoolAtBlock(
+//       block, "", "", CHAINS.MODE, PROTOCOLS.AIRPUFF, AMM_TYPES.UNISWAPV3
+//     );
 
-    console.log(`Block: ${block}`);
-    console.log("Positions: ", positions.length);
+//     console.log(`Block: ${block}`);
+//     console.log("Positions: ", positions.length);
 
-    // Assuming this part of the logic remains the same
-    let positionsWithUSDValue = positions.map(getPositionDetailsFromPosition);
-    let lpValueByUsers = getLPValueByUserAndPoolFromPositions(positionsWithUSDValue);
+//     // Assuming this part of the logic remains the same
+//     let positionsWithUSDValue = positions.map(getPositionDetailsFromPosition);
+//     let lpValueByUsers = getLPValueByUserAndPoolFromPositions(positionsWithUSDValue);
 
-    lpValueByUsers.forEach((value, key) => {
-      let positionIndex = 0; // Define how you track position index
-      value.forEach((lpValue, poolKey) => {
-        const lpValueStr = lpValue.toString();
-        // Accumulate CSV row data
-        csvRows.push({
-          user: key,
-          pool: poolKey,
-          block,
-          position: positions.length, // Adjust if you have a specific way to identify positions
-          lpvalue: lpValueStr,
-        });
-      });
-    });
-  }
+//     lpValueByUsers.forEach((value, key) => {
+//       let positionIndex = 0; // Define how you track position index
+//       value.forEach((lpValue, poolKey) => {
+//         const lpValueStr = lpValue.toString();
+//         // Accumulate CSV row data
+//         csvRows.push({
+//           user: key,
+//           pool: poolKey,
+//           block,
+//           position: positions.length, // Adjust if you have a specific way to identify positions
+//           lpvalue: lpValueStr,
+//         });
+//       });
+//     });
+//   }
 
   // Write the CSV output to a file
-  const ws = fs.createWriteStream('outputData.csv');
-  write(csvRows, { headers: true }).pipe(ws).on('finish', () => {
-    console.log("CSV file has been written.");
-  });
-};
+//   const ws = fs.createWriteStream('outputData.csv');
+//   write(csvRows, { headers: true }).pipe(ws).on('finish', () => {
+//     console.log("CSV file has been written.");
+//   });
+// };
 
-getData().then(() => {
+
+getLpTokenPriceUSD('ezETH',6316369).then(() => {
   console.log("Done");
 });
 // getPrice(new BigNumber('1579427897588720602142863095414958'), 6, 18); //Uniswap
