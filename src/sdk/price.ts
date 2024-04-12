@@ -34,7 +34,6 @@ export async function getLpTokenPriceETH(token: Token, blockNumber: number) {
   
   const data = await res.json();
   const derivedMatic = data?.data?.token?.derivedMatic;
-  console.log(derivedMatic)
   return derivedMatic;
 }
 
