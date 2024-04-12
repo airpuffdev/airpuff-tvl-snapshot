@@ -38,7 +38,7 @@ export async function getLpTokenPriceETH(token: Token, blockNumber: number) {
 }
 
 export async function getLpTokenPriceUSD(token: Token, blockNumber: number) {
-    const tokenETHPrice = await getLpTokenPriceETH(token,blockNumber)
+    const tokenETHPrice = token != 'eth' ? await getLpTokenPriceETH(token,blockNumber) : 1
     const usdtETHPrice = await getLpTokenPriceETH('usdt',blockNumber)
     
     return tokenETHPrice /  usdtETHPrice

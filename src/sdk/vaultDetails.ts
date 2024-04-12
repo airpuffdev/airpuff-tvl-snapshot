@@ -28,7 +28,7 @@ export async function getAllPositionsAtBlock(
     (await getLendPositionAtBlock(protocol, LENDS.ETHLEND, block)) ?? [];
 
   const result = [...renzo, ...renzo1x, ...ethLendMode];
-  
+
   return result.sort((a, b) => {
     if (a.user === b.user) {
       return a.block - b.block;
@@ -76,6 +76,10 @@ export async function getLendPositionAtBlock(
   const lpAsset = LP_VAULT_MAP[lend];
   const data = await res.json();
   const positions: Position[] = data?.data;
+  const lpUsdValue = await getLpTokenPriceUSD(lpAsset, block);
 
-  return positions;
+   return positions.map((p) => ({
+    ...p,
+    lpValueUsd: p.lpValue * lpUsdValue,
+  }));
 }
