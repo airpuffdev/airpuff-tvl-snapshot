@@ -24,10 +24,12 @@ export async function getAllPositionsAtBlock(
     (await getVaultPositionsAtBlock(protocol, VAULTS.RENZO, block)) ?? [];
   const renzo1x =
     (await getVaultPositionsAtBlock(protocol, VAULTS.RENZO1x, block)) ?? [];
+  const etherfi1x =
+    (await getVaultPositionsAtBlock(protocol, VAULTS.ETHERFI1x, block)) ?? [];
   const ethLendMode =
     (await getLendPositionAtBlock(protocol, LENDS.ETHLEND, block)) ?? [];
 
-  const result = [...renzo, ...renzo1x, ...ethLendMode];
+  const result = [...renzo, ...renzo1x, ...etherfi1x, ...ethLendMode];
 
   return result.sort((a, b) => {
     if (a.user === b.user) {
@@ -78,7 +80,7 @@ export async function getLendPositionAtBlock(
   const positions: Position[] = data?.data;
   const lpUsdValue = await getLpTokenPriceUSD(lpAsset, block);
 
-   return positions.map((p) => ({
+  return positions.map((p) => ({
     ...p,
     lpValueUsd: p.lpValue * lpUsdValue,
   }));

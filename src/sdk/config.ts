@@ -14,6 +14,7 @@ export const enum AMM_TYPES {
 export const enum VAULTS {
   RENZO = 'renzoMode',
   RENZO1x = 'renzoMode1x',
+  ETHERFI1x = 'etherfiMode1x'
 }
 export const enum LENDS {
   ETHLEND = 'ethlend'
@@ -32,6 +33,7 @@ export const VAULT_API_URLS = {
     [PROTOCOLS.AIRPUFF]: {
       [VAULTS.RENZO]: 'https://api.airpuff.io/vault/userBalances/renzoMode',
       [VAULTS.RENZO1x]: 'https://api.airpuff.io/vault/userBalances/renzoMode1x',
+      [VAULTS.ETHERFI1x]: 'https://api.airpuff.io/vault/userBalances/etherfiMode1x',
       [LENDS.ETHLEND]: 'https://api.airpuff.io/lend/userBalances/ethMode',
     },
   },
@@ -40,6 +42,7 @@ export const VAULT_API_URLS = {
 export const LP_VAULT_MAP: { [key in  VAULTS | LENDS]:  Token } = {
   [VAULTS.RENZO]: 'ezETH',
   [VAULTS.RENZO1x]: 'ezETH',
+  [VAULTS.ETHERFI1x]: 'weETH',
   [LENDS.ETHLEND]: 'eth',
 };
 
