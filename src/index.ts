@@ -75,7 +75,7 @@ const readBlocksFromCSV = async (filePath: string): Promise<number[]> => {
 };
 
 const getData = async () => {
-  const snapshotBlocks = [6071025, 6242134, 6245040, 6251288, 6258143,6366331]; //await readBlocksFromCSV('src/sdk/mode_chain_daily_blocks.csv');
+  const snapshotBlocks = [6071025, 6242134, 6245040, 6251288, 6258143,6366331,6885763]; //await readBlocksFromCSV('src/sdk/mode_chain_daily_blocks.csv');
 
   const csvRows: CSVRow[] = [];
 

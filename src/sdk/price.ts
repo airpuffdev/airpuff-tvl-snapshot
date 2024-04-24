@@ -31,15 +31,16 @@ export async function getLpTokenPriceETH(token: Token, blockNumber: number) {
     body: JSON.stringify({ query }),
     headers: { 'Content-Type': 'application/json' },
   });
-  
+
   const data = await res.json();
   const derivedMatic = data?.data?.token?.derivedMatic;
   return derivedMatic;
 }
 
 export async function getLpTokenPriceUSD(token: Token, blockNumber: number) {
-    const tokenETHPrice = token != 'eth' ? await getLpTokenPriceETH(token,blockNumber) : 1
-    const usdtETHPrice = await getLpTokenPriceETH('usdt',blockNumber)
-    
-    return tokenETHPrice /  usdtETHPrice
-}   
+  const tokenETHPrice =
+    token != 'eth' ? await getLpTokenPriceETH(token, blockNumber) : 1;
+  const usdtETHPrice = await getLpTokenPriceETH('usdt', blockNumber);
+
+  return (tokenETHPrice ?? 0) / usdtETHPrice;
+}
