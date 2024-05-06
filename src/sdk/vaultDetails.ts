@@ -1,4 +1,4 @@
-import { Token } from '../types';
+import { Token } from "../types";
 import {
   CHAINS,
   LENDS,
@@ -6,8 +6,8 @@ import {
   PROTOCOLS,
   VAULTS,
   VAULT_API_URLS,
-} from './config';
-import { getLpTokenPriceUSD } from './price';
+} from "./config";
+import { getLpTokenPriceUSD } from "./price";
 
 export type Position = {
   user: string;
@@ -53,18 +53,18 @@ export async function getTokenPositionsAtBlock(
   for (const lpAsset of lpAssets) {
     const body = { blockNumber: block, asset: lpAsset };
     const res = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
     const lpUsdValue = await getLpTokenPriceUSD(lpAsset, block);
-    console.log({lpAsset,lpUsdValue})
     const data = await res.json();
     const positions: Position[] = data?.data;
     result.push(
       ...positions.map((p) => ({
         ...p,
-        lpValueUsd: p.lpValue * lpUsdValue,
+        lpValue: p.lpValue * lpUsdValue,
+        lpValueusd: p.lpValue * lpUsdValue,
       }))
     );
   }
@@ -80,9 +80,9 @@ export async function getVaultPositionsAtBlock(
   const url = VAULT_API_URLS[CHAINS.MODE][protocol][vault];
   const body = { blockNumber: block };
   const res = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
   const lpAsset = LP_VAULT_MAP[vault] as Token;
   const lpUsdValue = await getLpTokenPriceUSD(lpAsset, block);
@@ -91,7 +91,8 @@ export async function getVaultPositionsAtBlock(
 
   return positions.map((p) => ({
     ...p,
-    lpValueUsd: p.lpValue * lpUsdValue,
+    lpValue: p.lpValue * lpUsdValue,
+    lpValueusd: p.lpValue * lpUsdValue,
   }));
 }
 
@@ -103,9 +104,9 @@ export async function getLendPositionAtBlock(
   const url = VAULT_API_URLS[CHAINS.MODE][protocol][lend];
   const body = { blockNumber: block };
   const res = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
   const lpAsset = LP_VAULT_MAP[lend] as Token;
   const data = await res.json();
@@ -114,6 +115,7 @@ export async function getLendPositionAtBlock(
 
   return positions.map((p) => ({
     ...p,
-    lpValueUsd: p.lpValue * lpUsdValue,
+    lpValue: p.lpValue * lpUsdValue,
+    lpValueusd: p.lpValue * lpUsdValue,
   }));
 }

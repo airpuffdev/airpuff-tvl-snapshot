@@ -1,6 +1,6 @@
-import { addresses } from '../constant';
-import { Token } from '../types';
-import { AMM_TYPES, CHAINS, PROTOCOLS, SUBGRAPH_URLS } from './config';
+import { addresses } from "../constant";
+import { Token } from "../types";
+import { AMM_TYPES, CHAINS, PROTOCOLS, SUBGRAPH_URLS } from "./config";
 
 // export async function getLpTokenPrice(chainId: CHAINS, vaultId: string): Promise<number> {
 
@@ -27,9 +27,9 @@ export async function getLpTokenPriceETH(token: Token, blockNumber: number) {
         }
       }`;
   const res = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({ query }),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
 
   const data = await res.json();
@@ -39,8 +39,8 @@ export async function getLpTokenPriceETH(token: Token, blockNumber: number) {
 
 export async function getLpTokenPriceUSD(token: Token, blockNumber: number) {
   const tokenETHPrice =
-    token != 'eth' ? await getLpTokenPriceETH(token, blockNumber) : 1;
-  const usdtETHPrice = await getLpTokenPriceETH('usdt', blockNumber);
+    token != "eth" ? await getLpTokenPriceETH(token, blockNumber) : 1;
+  const usdtETHPrice = await getLpTokenPriceETH("usdt", blockNumber);
 
   return (tokenETHPrice ?? 0) / usdtETHPrice;
 }
