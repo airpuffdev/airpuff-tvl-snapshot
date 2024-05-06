@@ -1,4 +1,4 @@
-import { Token } from "../types";
+import { Token } from '../types';
 import {
   CHAINS,
   LENDS,
@@ -6,8 +6,8 @@ import {
   PROTOCOLS,
   VAULTS,
   VAULT_API_URLS,
-} from "./config";
-import { getLpTokenPriceUSD } from "./price";
+} from './config';
+import { getLpTokenPriceUSD } from './price';
 
 export type Position = {
   user: string;
@@ -15,7 +15,7 @@ export type Position = {
   block: number;
   position: number;
   lpValue: number;
-  lpValueUsd?: number;
+  lpValueusd?: number;
 };
 export async function getAllPositionsAtBlock(
   protocol: PROTOCOLS,
@@ -53,9 +53,9 @@ export async function getTokenPositionsAtBlock(
   for (const lpAsset of lpAssets) {
     const body = { blockNumber: block, asset: lpAsset };
     const res = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
     const lpUsdValue = await getLpTokenPriceUSD(lpAsset, block);
     const data = await res.json();
@@ -80,9 +80,9 @@ export async function getVaultPositionsAtBlock(
   const url = VAULT_API_URLS[CHAINS.MODE][protocol][vault];
   const body = { blockNumber: block };
   const res = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
   const lpAsset = LP_VAULT_MAP[vault] as Token;
   const lpUsdValue = await getLpTokenPriceUSD(lpAsset, block);
@@ -104,9 +104,9 @@ export async function getLendPositionAtBlock(
   const url = VAULT_API_URLS[CHAINS.MODE][protocol][lend];
   const body = { blockNumber: block };
   const res = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
   const lpAsset = LP_VAULT_MAP[lend] as Token;
   const data = await res.json();
